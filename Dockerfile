@@ -7,6 +7,9 @@ ARG DEBIAN_FRONTEND=noninteractive
 # Create user "laravel"
 RUN adduser --disabled-password --gecos "" laravel
 
+# Add stretch backports
+RUN echo "deb http://ftp.debian.org/debian stretch-backports main" > /etc/apt/sources.list.d/stretch-backports.list
+
 # Install basic packages
 RUN apt-get update && apt-get install -y apt-transport-https lsb-release ca-certificates wget curl build-essential git unzip supervisor mysql-client openssh-client vim
 
@@ -36,9 +39,9 @@ RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" &&
     composer --version
 
 # Support Laravel Dusk
+RUN apt-get update && apt-get -y -t stretch-backports install chromium
 RUN apt-get update && \
     apt-get -y install libxpm4 libxrender1 libgtk2.0-0 libnss3 libgconf-2-4 && \
-    apt-get -y install chromium && \
     apt-get -y install xvfb gtk2-engines-pixbuf && \
     apt-get -y install xfonts-cyrillic xfonts-100dpi xfonts-75dpi xfonts-base xfonts-scalable && \
     apt-get -y install imagemagick x11-apps
