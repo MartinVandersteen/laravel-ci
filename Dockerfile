@@ -39,8 +39,10 @@ RUN add-apt-repository ppa:ondrej/php && apt-get update && apt-get install -y ph
     php -m && \
     php -v
 
+RUN curl -sL https://deb.nodesource.com/setup_16.x | bash -
+
 # Install Node.js
-RUN apt-get install -y nodejs npm && \
+RUN apt-get install -y nodejs && \
     node -v && \
     npm -v
 
